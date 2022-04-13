@@ -1,0 +1,250 @@
+@use "sass:color";
+@use "../style/theme";
+
+$cls: ".eg-panel";
+
+#{$cls} {
+  align-items: center;
+  display: grid;
+  gap: 1.5em;
+  grid-template-areas: "logo clear share tone kick mute";
+  grid-template-columns: 1fr auto auto auto auto;
+  justify-self: stretch;
+
+  @media all and (max-width: theme.$bp-compact) {
+    grid-template-areas: "clear share tone kick mute";
+    grid-template-columns: auto auto 1fr;
+    justify-self: end;
+  }
+}
+
+#{$cls}__logo {
+  display: grid;
+  place-self: stretch;
+}
+
+#{$cls}__meters {
+  align-self: stretch;
+  display: grid;
+  grid-auto-flow: column;
+  justify-self: start;
+  gap: 2px;
+  grid-template-areas: "synth bass kick master";
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.eg-meter__track {
+  width: 1.25em;
+  background-color: color.adjust(theme.$color-gray-200, $alpha: -0.8);
+  border-radius: 2px;
+  grid-auto-flow: column;
+  align-self: stretch;
+  gap: 1px;
+  display: grid;
+
+  &--color-yellow {
+    --meter-color: #{theme.$color-brand-600};
+  }
+
+  &--color-blue {
+    --meter-color: #0066ff;
+  }
+
+  &--color-orange {
+    --meter-color: #{theme.$color-brand-400};
+  }
+
+  &--color-green {
+    --meter-color: #00b80f;
+  }
+}
+
+$curve-bounce: cubic-bezier(0.57, 1.87, 0.34, -0.05);
+
+.eg-meter__value {
+  background-image: linear-gradient(to top, var(--meter-color), transparent);
+  transform-origin: 50% 100%;
+  align-self: stretch;
+  will-change: transform;
+}
+
+#{$cls}__option {
+  align-items: center;
+  display: grid;
+  gap: 1em;
+  grid-auto-flow: column;
+  position: relative;
+  user-select: none;
+  font-size: 0.85em;
+}
+
+#{$cls}__led {
+  $base: &;
+  display: none;
+
+  & + label {
+    --size: 0.6em;
+
+    column-gap: 0.5em;
+    display: inline-grid;
+    grid-template-areas: "led label";
+    grid-template-columns: var(--size);
+  }
+
+  // both
+  & + label:before,
+  & + label:after {
+    border-radius: var(--size);
+    border: 1px solid theme.$color-gray-200;
+    content: "";
+    grid-area: led;
+    height: var(--size);
+    place-self: center;
+    width: var(--size);
+  }
+
+  // socket
+  & + label:before {
+    background-image: radial-gradient(#fff1 50%, #fbff0033);
+  }
+
+  // LED
+  & + label:after {
+    --size: 0.9em;
+  }
+  &:checked + label:after {
+    background-image: radial-gradient(
+      circle at 50% 40%,
+      theme.$color-brand-800,
+      theme.$color-brand-200
+    );
+    box-shadow: 0 0 0.5em 0.1em theme.$color-brand-200;
+  }
+}
+
+#{$cls}__switch {
+  display: none;
+
+  & + label {
+    --len: 1.7em;
+    --flip-len: calc(var(--len) / 3);
+
+    align-items: center;
+    display: inline-grid;
+    gap: 0.5em;
+    grid-template-areas: "check label";
+    grid-template-columns: var(--len) auto;
+  }
+
+  // track
+  & + label:before {
+    align-items: center;
+    background-color: theme.$color-gray-200;
+    border-radius: 1em;
+    content: "";
+    grid-area: check;
+    height: 1em;
+    line-height: 0;
+    width: var(--len);
+  }
+
+  // lever
+  & + label:after {
+    --color: #{theme.$color-gray-600};
+
+    background-color: var(--color);
+    background-blend-mode: overlay;
+    background-image: radial-gradient(circle at bottom, #fff9, #0008),
+      radial-gradient(#0000 60%, #fff);
+    border: 1px solid theme.$color-gray-100;
+    border-radius: 1em;
+    content: "";
+    grid-area: check;
+    height: 1em;
+    justify-self: center;
+    transform: translate(calc(-1 * var(--flip-len)), 0);
+    transition: transform 0.08s ease-in-out;
+    width: 1em;
+  }
+
+  &:checked + label:after {
+    --color: #{theme.$color-brand-400};
+
+    transform: translate(var(--flip-len), 0);
+  }
+}
+
+.eg-share {
+  display: grid;
+  grid-template-areas: "icon" "menu";
+  grid-template-rows: auto 0;
+  justify-content: center;
+  grid-area: share;
+}
+
+.eg-share__icon {
+  grid-area: icon;
+}
+
+.eg-share__menu {
+  grid-area: menu;
+}
+
+.eg-share__copyalert {
+  animation: fadeout 6s ease-in-out both, boop 0.8s both;
+  background-color: theme.$color-brand-200;
+  border-radius: 2px;
+  box-shadow: 0 0.4em 1em 0.2em #0006;
+  color: white;
+  opacity: 1;
+  padding: 0.5em 0.25em;
+  position: absolute;
+  right: -5em;
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes boop {
+  0% {
+    transform: scale(0, 0);
+  }
+  10% {
+    transform: scale(1.1, 1.1);
+  }
+  20% {
+    transform: scale(0.9, 0.9);
+  }
+  30% {
+    transform: scale(1.05, 1.05);
+  }
+  40% {
+    transform: scale(1, 1);
+  }
+  80% {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform: (scale(0, 0));
+    opacity: 0;
+  }
+}
+
+.eg-share__clipboardicon {
+  grid-area: decorators;
+}
+
+.eg-share__copyalert {
+  grid-area: decorators;
+}

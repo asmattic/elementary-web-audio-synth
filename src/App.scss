@@ -1,0 +1,148 @@
+@use "sass:color";
+@use "./style/theme";
+
+@import url(https://fonts.googleapis.com/css?family=Red+Hat+Mono:wght@100..900&display=swap);
+
+html,
+body {
+  font-family: "Red Hat Mono";
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: theme.$color-gray-50;
+  color: theme.$color-gray-600;
+  height: 100vh;
+}
+
+body {
+  display: grid;
+  place-items: stretch;
+  height: 100%;
+}
+
+#root {
+  display: contents;
+}
+
+a,
+a:visited {
+  color: theme.$color-brand-400;
+}
+
+button {
+  --gd-bg-s0: #0008;
+  --gd-bg-s1: #0002;
+
+  background-color: theme.$color-gray-200;
+  background-image: radial-gradient(#0008, #0002);
+  border-radius: 4px;
+  border: none;
+  color: theme.$color-gray-800;
+  font-family: "Red Hat Mono";
+  font-weight: 900;
+  outline: none;
+  padding: 0.2em 1em;
+  text-transform: uppercase;
+  transition: background-color 200ms ease-in-out;
+
+  &:hover {
+    background-color: theme.$color-gray-400;
+    transition: background-color 60ms ease-in-out;
+    animation: warn calc(1000ms / 7.5) linear infinite both;
+  }
+}
+
+.eg-app {
+  align-items: center;
+  background-color: theme.$color-gray-100;
+  display: grid;
+  gap: 1em;
+  grid-template-rows: auto auto auto 1fr;
+  padding: 1em;
+  margin: 0 auto;
+  width: calc(100% - 2em);
+  max-width: 35em;
+}
+
+.eg-app__grids {
+  display: grid;
+  gap: 1em;
+}
+
+$warn-base: #{color.adjust(theme.$color-brand-100, $lightness: 20%)};
+$warn-on: #{color.mix(theme.$color-brand-200, red, 50%)};
+$warn-off: #{color.adjust(theme.$color-brand-100, $lightness: 10%)};
+
+@keyframes warn {
+  0% {
+    background-image: radial-gradient($warn-base, $warn-off);
+  }
+  50% {
+    background-image: radial-gradient($warn-base, $warn-on);
+    box-shadow: 0 0 1em 0 red;
+  }
+}
+
+.eg-svg {
+  --fg-color: #{theme.$color-gray-600};
+  stroke-linecap: round;
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 2px;
+
+  &__path {
+    &--filled {
+      fill: var(--fg-color);
+    }
+    &--stroked {
+      stroke: var(--fg-color);
+    }
+  }
+
+  &--has-hover:hover {
+    --fg-color: #{theme.$color-gray-800};
+  }
+}
+
+.eg-menu {
+  background-color: theme.$color-gray-200;
+  border-radius: 2px;
+  box-shadow: 0 0.4em 1em 0.2em #0006;
+  display: grid;
+  gap: 0.5em;
+  list-style: none;
+  margin: 0;
+  padding: 0.75em 0.75em;
+  position: absolute;
+  transform: translate(0, 1.5em);
+}
+
+.eg-menuitem {
+  align-items: center;
+  display: grid;
+  gap: 1em;
+  grid-template-areas: "text decorators";
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.eg-text {
+  color: theme.$color-gray-800;
+}
+
+a.eg-text--menuitem,
+.eg-text--menuitem {
+  color: theme.$color-gray-800;
+  text-decoration: none;
+}
+
+.eg-text--link {
+  color: theme.$color-gray-800;
+
+  &:visited {
+    color: theme.$color-gray-800;
+  }
+}

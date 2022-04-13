@@ -1,0 +1,63 @@
+@use "sass:color";
+@use "../style/theme";
+
+.eg-logo {
+  --gd-text-s0: #{color.adjust(theme.$color-gray-400, $lightness: 20%)};
+  --gd-text-s1: #{theme.$color-gray-400};
+
+  --gd-off-s0: #{color.adjust(theme.$color-gray-200)};
+  --gd-off-s1: #{color.adjust(theme.$color-gray-200, $alpha: -0.7)};
+
+  --gd-half-s0: #{color.adjust(theme.$color-brand-400, $alpha: -0.5)};
+  --gd-half-s1: #{color.adjust(theme.$color-brand-400, $alpha: -0.7)};
+
+  --gd-full-s0: #{color.adjust(theme.$color-brand-600)};
+  --gd-full-s1: #{color.adjust(theme.$color-brand-400)};
+
+  align-items: center;
+  display: grid;
+  grid-auto-flow: row;
+  justify-content: start;
+  gap: 3px;
+
+  path {
+    transform-box: fill-box;
+  }
+}
+
+.eg-logo__text {
+  width: 6em;
+}
+
+.eg-logo__grid {
+  width: 6.1em;
+
+  .led-g {
+    opacity: var(--meter-g);
+  }
+
+  .led-r {
+    opacity: var(--meter-r);
+  }
+
+  .led-i {
+    opacity: var(--meter-i);
+  }
+
+  .led-d {
+    opacity: var(--meter-d);
+  }
+}
+
+@media all and (max-width: theme.$bp-compact) {
+  .eg-logo {
+    gap: 0;
+    grid-auto-flow: row;
+  }
+
+  .eg-logo__text,
+  .eg-logo__grid {
+    height: auto;
+    width: 5em;
+  }
+}
